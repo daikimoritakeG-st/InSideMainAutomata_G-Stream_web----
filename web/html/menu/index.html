@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Menu</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- CSVを使うライブラリ -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.1.0/papaparse.min.js"></script>
+    <!-- サーバのライブラリを読み込む処理 -->
+    <script src="../../../node_modules/encoding-japanese/encoding.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <table>
+            <tr>
+                <td>
+                    <a href="/">ISMA/Top</a>
+                </td>
+                <td>
+                    <nav>
+                        <ul>
+                            <li><a href="#file-input_saleCount">CSVデータインプット</a></li>
+                            <li><a href="#zaikoSearch">在庫検索</a></li>
+                            <li><a href="#menu">Menu</a></li>
+                            <li><a href="#contact">Contact</a></li>
+                        </ul>
+                    </nav>
+                </td>
+            </tr>
+        </table>
+    </header>
+    <main>
+        <h1></h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        目次
+                    </th>
+                    <th>
+                        内容
+                    </th>
+                    <th>
+                        ボタン
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        商品親子マスタ読み込み
+                    </td>
+                    <td>
+                        <table>
+                            <tr>
+                                <td>
+                                    スプレッドシートで作成されたマスタをオブジェクト形式で読み込みます。
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    親コード-商品管理コード-SKU
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td>
+                        <table>
+                            <tr>
+                                <td>
+                                    <p>読み込みボタンを押してください</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <button id="loadItemMaster">読み込み</button>
+                                            </td>
+                                            <td>
+                                                <p>未読み込み</p>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        SKU単位の販売率算出のためのCSVインポート
+                    </td>
+                    <td>
+                        特攻店長から取得したSKU別の販売数データ
+                        直近1ヶ月のデータを入力します。
+                        このデータは、商品分析の発注画面に表示される、SKU単位の販売率の算出に使われます。
+                    </td>
+                    <td>
+                        <table>
+                            <tr>
+                                <td>
+                                    <p>全店舗・直近1ヶ月・SKU単位の売上数量</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="file" id="file-input_saleCount">
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        在庫のインプット
+                    </td>
+                    <td>
+                        <table>
+                            <tr>
+                                <td>
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                Amazon・楽天物流・KOUGA・ヤマトフルフィルメント
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p>
+                                                    SKU・商品管理コード単位で出荷可能な在庫のみを集計します。
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                データがない商品は、在庫数 0 となります。
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td>
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <a href="https://sellercentral-japan.amazon.com/reportcentral/FBA_MYI_UNSUPPRESSED_INVENTORY/1"
+                                                    target="_blank" rel="noopener noreferrer">Amazonへ移動</a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <a href="https://www.itemstockcontrol.co.jp/gstream/Form/main.php"
+                                                    target="_blank" rel="noopener noreferrer">KOUGAへ移動</a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <a href="https://boss-oms.jp/BOSSWeb/ItemInventoryList" target="_blank"
+                                                    rel="noopener noreferrer">楽天物流へ移動</a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <a href="https://kuroneko-ylc.com/ffportal/Ebina/" target="_blank"
+                                                    rel="noopener noreferrer">ヤマトへ移動</a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td>
+                        <table>
+                            <tr>
+                                <td>
+                                    <table>
+                                        <tr>
+                                            <td>Amazon</td>
+                                            <td>
+                                                <input type="file" id="file-input_zaiko_amazon">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>KOUGA</td>
+                                            <td>
+                                                <input type="file" id="file-input_zaiko_kouga">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>楽天物流</td>
+                                            <td>
+                                                <input type="file" id="file-input_zaiko_rakuten">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>ヤマト</td>
+                                            <td>
+                                                <input type="file" id="file-input_zaiko_yamato">
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                全ロケCSV選択後
+                                            </td>
+                                            <td>
+                                                <button id="button_push_zaiko">在庫読込実行</button>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <br>
+        <br>
+        <br>
+
+        </table>
+        <br>
+        <br>
+    </main>
+
+    <footer>
+
+    </footer>
+</body>
+
+<!-- 画面に対して動作するJS -->
+<script src="../../js/menu/event.js"></script>
+
+</html>

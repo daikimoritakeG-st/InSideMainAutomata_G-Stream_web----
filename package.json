@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "encoding-japanese": "^2.0.0",
+    "mariadb": "^3.0.2",
+    "node-fetch": "^2.6.7",
+    "playwright": "^1.28.1",
+    "request": "^2.88.2"
+  }
+}

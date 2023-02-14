@@ -1,0 +1,43 @@
+{
+    "hobinaviKey": {
+        "serviceSecret": "SP233043_05HjB18g8Tmiv3RH",
+        "licenseKey": "SL233043_Tu5EX1lFYeECJrhe"
+    },
+    "expiry_date": "2023/03/26",
+    "method": {
+        "Cabinet": {
+            "file": {
+                "delete": "画像IDを指定して画像を削除フォルダに移動することができます。",
+                "insert": "画像ファイルを指定して画像を登録することができます。",
+                "update": "画像IDを指定して画像情報を更新することができます。",
+                "search": "画像名を指定して画像を検索することができます。"
+            },
+            "folder": {
+                "files": {
+                    "get": "指定したフォルダ内の画像一覧を取得することができます。"
+                },
+                "insert": "フォルダを作成することができます。"
+            },
+            "folders": {
+                "get": "フォルダの一覧を取得することができます。"
+            },
+            "trashbox": {
+                "file": {
+                    "revert": "削除フォルダ内にある画像を指定したフォルダに戻すことができます。"
+                },
+                "files": {
+                    "get": "削除フォルダ内にある画像の一覧を取得することができます。"
+                }
+            },
+            "usage": {
+                "get": "R-Cabinetの利用状況を取得することができます。"
+            }
+        },
+        "CategoryAPI": {},
+        "CouponAPI": {},
+        "ItemAPI": {},
+        "InventoryAPI": {},
+        "ShopManagementAPI": {},
+        "RakutenPay_OrderAPI": {}
+    }
+}

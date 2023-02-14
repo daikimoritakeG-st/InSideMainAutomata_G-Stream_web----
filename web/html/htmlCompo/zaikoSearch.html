@@ -1,0 +1,86 @@
+<html>
+
+
+<head>
+    <title>zaikoSearch</title>
+    <meta charset="utf-8">
+    <!-- <link rel="stylesheet" href="../css/style.css"> -->
+    <!-- CSVを使うライブラリ -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.1.0/papaparse.min.js"></script>
+    <!-- サーバのライブラリを読み込む処理 -->
+    <script src="../../../node_modules/encoding-japanese/encoding.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <!-- <table>
+            <tr>
+                <td>
+                    <a href="/">ISMA/Top</a>
+                </td>
+                <td>
+                    <nav>
+                        <ul>
+                            <li><a href="#file-input_saleCount">CSVデータインプット</a></li>
+                            <li><a href="#zaikoSearch">在庫検索</a></li>
+                            <li><a href="#menu">Menu</a></li>
+                            <li><a href="#contact">Contact</a></li>
+                        </ul>
+                    </nav>
+                </td>
+            </tr>
+        </table> -->
+        <h1 id="zaikoSearch">
+            在庫確認画面
+        </h1>
+    </header>
+
+
+    <main>
+        <div id="globalUplodeDate"></div>
+        <table class="sticky_item">
+            <tbody>
+                <tr>
+                    <td>
+                        <table>
+                            <tr>
+                                <td>
+                                    <table>
+                                        <tr>
+                                            <td>検索キーワード</td>
+                                            <td>
+                                                <label class="nice-label" for="Username">
+                                                    ※先頭一致で検索します
+                                                    <!-- <select name="zaikoSearchOption">
+                                                        <option>商品管理コード</option>
+                                                        <option>SKU</option>
+                                                    </select> -->
+                                                </label>
+                                                <input type="text" class="nice-textbox" id="input_item_search">
+                                                <button id="button_item_Search">検索</button>
+                                                &emsp;&emsp;&emsp;&emsp;&emsp;
+                                                <a id="export_csv_all">全在庫CSVダウンロード</a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table id="zaikoSearchTable">
+            <tbody></tbody>
+        </table>
+
+
+    </main>
+
+
+
+
+</body>
+
+</html>

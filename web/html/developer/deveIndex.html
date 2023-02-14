@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>ISMA-開発中</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- CSVを使うライブラリ -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.1.0/papaparse.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <table>
+            <tr>
+                <td>
+                    <a href="/">ISMA/Top</a>
+                </td>
+                <td>
+                    <nav>
+                        <ul>
+                            <li><a href="#file-input_saleCount">開発中</a></li>
+                            <!-- <li><a href="#zaikoSearch">在庫検索</a></li>
+                            <li><a href="#menu">Menu</a></li>
+                            <li><a href="#contact">Contact</a></li> -->
+                        </ul>
+                    </nav>
+                </td>
+            </tr>
+        </table>
+    </header>
+    <main>
+        <br>
+        <br>
+        <h1>開発中-進捗共有</h1>
+        <h3>■　在庫管理ツール</h3>
+        <table>
+            <tbody>
+                <tr>
+                    <th>
+                        項目
+                    </th>
+                    <th>
+                        内容とリンク
+                    </th>
+                </tr>
+                <tr>
+                    <h4>導入手順</h4>
+                </tr>
+                <tr>
+                    <a href="https://docs.google.com/document/d/155Yq5hLTx58jQ3Nx8FCEe3C7FdA04SR9FYY4SGcePyg/edit"
+                        target="_blank" rel="noopener noreferrer">
+                        導入手順のドキュメント
+                    </a>
+                </tr>
+                <tr>
+                    <td>
+                        <h4>最新のフォーマット</h4>
+                    </td>
+                    <td>
+                        <table>
+                            <tr>
+                                <td>
+                                    <a href="https://docs.google.com/spreadsheets/d/17YFBkFJK2W86GOrJvdAXOVJxDvqIdTTItdAfhbffUDw/edit#gid=934767392"
+                                        target="_blank" rel="noopener noreferrer">
+                                        商品分析-gl002-4set-ソーラーライト</a>
+                                </td>
+                                <td>
+                                    各シートへコピー用
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a href="https://docs.google.com/spreadsheets/d/19Fpw_oYOMQF2FKbnryQDd_xC8qTuy7vYLcCmIzyc5d0"
+                                        target="_blank" rel="noopener noreferrer">最新のコードを適用した商品
+                                        tws008-bk-独立型ワイヤレスイヤホン</a>
+                                </td>
+                                <td>
+                                    発注先のシートを変更
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a href="https://docs.google.com/spreadsheets/d/1Mv27XMSCwe5oqs60aq8I3jOKotPBApIm1bK8OFyRMfg"
+                                        target="_blank" rel="noopener noreferrer">コードを適用した商品
+                                        trc001-49l-wh-ゴミ箱(49L)</a>
+                                </td>
+                                <td>
+                                    データがない場合のバグを修正
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a href="https://docs.google.com/spreadsheets/d/1wuMzoJxiUZYAd-iNj-LO2R20TiILHNYzfnhaqr6Svo8"
+                                        target="_blank" rel="noopener noreferrer">オリジナルVer2</a>
+                                    <a href="https://docs.google.com/spreadsheets/d/18Sk7QYepRC03G79H9x6-YMC2L397r4SpC2z7OEs2ztw"
+                                        target="_blank" rel="noopener noreferrer">オリジナルVer1</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+                </td>
+                </tr>
+                <tr>
+                    <td>
+                        サンプル
+                    </td>
+                    <td>
+                        <table>
+                            <tr>
+                                <td>
+                                    <h5>在庫データと売上を調節 ロット消化日数 1.5</h5>
+                                </td>
+                                <td>
+                                    <a href="https://docs.google.com/spreadsheets/d/1WANp2MBPr_-DC-EsZ_wWeKS2adPlAdUWrlyd2GspczE"
+                                        target="_blank" rel="noopener noreferrer">サンプルA</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h5>在庫データと売上を調節　ロット消化日数 0.07</h5>
+                                </td>
+                                <td>
+                                    <a href="https://docs.google.com/spreadsheets/d/1_JkKqOCCxA-8N0ivHK0jQkpB0AG8Aw_69mfQdhmbyVM"
+                                        target="_blank" rel="noopener noreferrer">サンプルB</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h5>在庫データと売上を調節 ロット消化日数 2.3</h5>
+                                </td>
+                                <td>
+                                    <a href="https://docs.google.com/spreadsheets/d/1nKpkEGpTiiSiCnEGw014fwWFyzgqYS7nHmdORacxOpw"
+                                        target="_blank" rel="noopener noreferrer">サンプルC</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h5>売上データをよりリアルにしたもの</h5>
+                                </td>
+                                <td>
+                                    <a href="https://docs.google.com/spreadsheets/d/1tF6ZJFnCSDTaF7vTRBPJFOnSDIPt5wg7xHSEcFrIEYQ"
+                                        target="_blank" rel="noopener noreferrer">商品分析-cx001acb-3m-在庫ツールサンプル</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h5>
+                            その他、使用しているシート&ツール
+                        </h5>
+                    </td>
+                    <td>
+                        <table>
+                            <tr>
+                                <td>
+                                    <h4>親子マスタ</h4>
+                                    このシートの親子マスタを使用して、各種商品のSKU単位の売上比率を算出します。
+                                    また、売上比率データの保存にも使用しており、各種商品分析シートからGASでデータを取得します。
+                                </td>
+                                <td>
+                                    <a href="https://docs.google.com/spreadsheets/d/1diQPf3NB49ADYVDD3TH0QKqkTgNV_pBR0FCZK4uoAQA"
+                                        target="_blank" rel="noopener noreferrer">シートへ</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4>特攻店長のCSVインポート</h4>
+                                    商品管理コードごとのSKUの販売比率は、特攻店長から取得したデータを使用します。 そのインポート方法は、このwebアプリを使用しています。
+                                    特攻店長から取得した1ヶ月のSKUごとの販売数のCSVを、このweb画面で読み込むと、商品コード単位で集計されて、そのデータを保存します。
+                                    ※注意：　卸などで売れた場合は例外が出るため、その例外が出ないようにモールを選んでCSVを出力
+                                </td>
+                                <td>
+                                    <a href="/menu" target="_blank" rel="noopener noreferrer">CSVインポートへ移動</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4>発注一覧</h4>
+                                    各種商品分析シートから発注した情報は、このスプレッドシートに一覧表示されます。
+                                </td>
+                                <td>
+                                    <a href="https://docs.google.com/spreadsheets/d/1kJrkqQrfOme0Wpa5P47M3WIiPBiqvXgLdACA6oFkZzY"
+                                        target="_blank" rel="noopener noreferrer">シートへ</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4>発注期限と最低ロットのマスタ</h4>
+                                    発注とロット数を管理している既存のシートから、データを取得しています。
+                                </td>
+                                <td>
+                                    <a href="https://docs.google.com/spreadsheets/d/1wlRWDddUOFslnpLSDP0PGxGL9iIslfB0xvzN0OZTflo/edit#gid=356327491"
+                                        target="_blank" rel="noopener noreferrer">シートへ</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table>
+            <tbody>
+                <tr>
+                    <td>
+                        <h4>機能について</h4>
+                    </td>
+                    <td>
+                        <h4>
+                            ■　主な機能
+                        </h4>
+
+                        <h3>ロット消化日数の表示</h3>
+                        <p>ロット消化日数は、最低ロット数 ÷ 直近1ヶ月の販売数で算出します。市場の場合は2週間の販売数です。 また、SKUごとに最低ロット数が違う場合は、一番大きい値を使用します。
+                        </p>
+                        <br>
+                        <h3>現在在庫の表示と消化日数</h3>
+                        <p>現在の在庫を毎日取得して「商品分析」のシートへ入力されます。 また、現在の在庫数があと何日分あるかを販売予測数を元に算出して表示します。
+                        </p>
+                        <br>
+                        <h3>SKU単位の発注</h3>
+                        <p>「発注」のシートからSKU単位で発注が可能です。
+                            発注時は、SKU単位で表示される売上比率と最低ロット数を確認することができ、発注ボタンをクリックすると、発注用のシートへ内容が送信されます。
+                            また、「商品分析」のシートの入荷数の欄に、入荷予定数として入力されます。
+                        </p>
+                        <br>
+                        <h3>アラート機能</h3>
+                        <p>発注の必要がありそうな時に、発注を促すポップアップが表示されます。 シートを開いてから10秒～20秒程で確認します。
+                        </p>
+                        <p>※アラートがでる条件</p>
+                        <p>・バイコン：　1週間まえ かつ、入荷予定日の在庫消化日数が「1.55」より少ない場合　または、入荷予定日の在庫消化日数が「0.6」より少ない場合</p>
+                        <p>・コンテナと市場：　入荷予定日の在庫消化日数が「0.6」より少ない場合</p>
+                        <br>
+                        <h3>その他の表示</h3>
+                        <p>現在の在庫消化日数</p>
+                        <p>バイコンとコンテナは在庫が0.5ヶ月分になる日付　市場は在庫が1週間分になる日付</p>
+                        <p>入荷日の在庫消化日数（入荷前）</p>
+                        <p>入荷日の在庫消化日数（入荷後）</p>
+                        <p>適正発注数</p>
+                        <p>月の在庫消化数</p>
+
+                        <br>
+                        <br>
+                        <h3>更新履歴</h3>
+                        <p>最新版では、発注情報を書き込むシートを変更　既存の発注管理シートの仕様にしたがって自動入力します。</p>
+                    </td>
+            </tbody>
+        </table>
+
+    </main>
+
+
+
+</body>
+
+</html>
