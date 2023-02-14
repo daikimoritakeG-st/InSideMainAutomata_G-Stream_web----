@@ -45,24 +45,9 @@ function lowerThanDateOnly(date1, date2) {
 // console.log(resDateLoop.getDate())
 
 
+const reg = new RegExp('efwbq');
 
-const promise = new Promise(resolve => {
-  resolve('data');
-})
+const text = 'tgdch;wer63789e';
 
-promise.then(d => {
-  console.log(d)
-})
-
-const text = Promise.resolve('data2');
-const text2 = Promise.resolve('data3');
-
-text.then(d => {
-  console.log(d)
-})
-
-text2.then(d => {
-  console.log(d)
-})
-
+console.log(reg.test(text))
 

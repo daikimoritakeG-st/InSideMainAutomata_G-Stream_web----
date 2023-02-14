@@ -28,7 +28,7 @@ class ItemData {
                 return res.json()
             }).then(res => {
                 // mainContentsEle.innerHTML = res['html'];
-                console.log(res['item'])
+                console.log('データをロード：', res['item'])
                 // globalUplodeDate = res['update'];
                 resolve(res['item']);
             }).catch(err => {
@@ -38,14 +38,6 @@ class ItemData {
 
     }
 
-    /**
-     * プロパティーを取得
-     */
-    get items() {
-        this.data.then(data => {
-            return data
-        })
-    }
 
     /**
      * プロパティのデータを部分消去
@@ -70,7 +62,8 @@ class ItemData {
         this.data.then(data => {
             Object.keys(data).forEach(sku => {
                 if (location in data[sku]) { //エラー対処：ロケーションがない場合がある
-                    data[sku][location] = 0; //在庫データを消去
+                    // data[sku][location] = 0; //在庫データを消去
+                    delete data[sku][location]; //ロケーションごと消去
                 }
             })
             this.data = Promise.resolve(data)
@@ -105,10 +98,12 @@ class ItemData {
     /**
      * ロケーションを指定して、その部分のデータを上書きする
      * データは全データを指定してよい
+     * データがないSKUは0でリセット
      * @param {string} location 更新するLocation
      * @param {{[x: string]: {[x: string]: [number...]}}} datas データ
      */
     setLocationItems(location, datas) {
+        this.resetLocation(location); //まず指定ロケーションの全在庫を0にする
         this.data.then(dataProperty => {
             /**
              * 引数datasのキーの数だけ繰り返す
@@ -146,12 +141,56 @@ class ItemData {
         })
     }
 
+    /**
+     * 商品名を更新
+     * 基本は、ロケーションごとの更新と同じだが、こちらは前回のデータをリセットせず、データがない場合は前回のまま
+     * @param {{[x: string]: {[x: string]: [number...]}}} datas データ
+     */
+    setNameItems(datas) {
+        this.data.then(dataProperty => {
+            /**
+             * 引数datasのキーの数だけ繰り返す
+             */
+            Object.keys(datas).forEach(sku => {
+                /**
+                 * 指定のLocationが、元データにあるかを確認
+                 */
+                if ('name' in datas[sku]) { //ある場合のみ処理
+                    /**
+                     * skuの数だけ繰り返す
+                     */
+                    if (sku in dataProperty) {
+                        // キーがすでに存在する　→　Locationが存在するかを確認
+                        if ('name' in dataProperty[sku]) {
+                            // locationがすでに存在する　→　何もしない
+                        } else {
+                            // locationがない　→　文字列で初期化
+                            dataProperty[sku]['name'] = '';
+                        }
+                    } else {
+                        // キーが存在しない　→　Objectで初期化 →　Locationもないのでこちらも初期化
+                        dataProperty[sku] = {}; //Objectで初期化
+                        dataProperty[sku]['name'] = ''; //文字列で初期化
+                    }
+                    // ここでは、必ず対象のキーが存在する & 0で初期化済み
+                    /**
+                     * 例外処理が済んでいるので、数値を上書きすれば良い
+                     */
+                    dataProperty[sku]['name'] = datas[sku]['name'];
+                }
+            })
+
+            this.data = Promise.resolve(dataProperty); // プロパティに保存
+        })
+    }
+
 
 
 }
 
 
 var itemData = new ItemData();
+
 
 //------------------------------関数---------------------------------
 /**
@@ -415,6 +454,7 @@ input_amazon.addEventListener("change", (evt) => {
                     globalCountSkus[value[0]]['amazon'] = 0; // 初期化
                 }
                 globalCountSkus[value[0]]['amazon'] += Number(value[10]); //在庫数を代入
+                globalCountSkus[value[0]]['name'] = value[1]; //商品名を格納
             })
             if (is_CsvErr_amazon) {
                 window.alert('amazonのCSVが間違っているようです。カラムが違います。')
@@ -432,6 +472,10 @@ input_amazon.addEventListener("change", (evt) => {
                         })
                     }
                 })
+            } else {
+                // CSVが間違ってない場合　→　インスタンスに保存
+                itemData.setLocationItems('amazon', globalCountSkus);
+                itemData.setNameItems(globalCountSkus);
             }
             // console.log(globalCountSkus)
         };
@@ -511,6 +555,7 @@ input_kouga.addEventListener("change", (evt) => {
                     globalCountSkus[value[1]]['kouga'] = 0; // 初期化
                 }
                 globalCountSkus[value[1]]['kouga'] += Number(value[8]); //在庫数を代入
+                globalCountSkus[value[1]]['name'] = value[3]; //商品名を格納
             })
             if (is_CsvErr_kouga) {
                 window.alert('kougaのCSVが間違っているようです。カラムが違います。')
@@ -528,6 +573,10 @@ input_kouga.addEventListener("change", (evt) => {
                         })
                     }
                 })
+            } else {
+                // CSVが間違ってない場合　→　インスタンスに保存
+                itemData.setLocationItems('kouga', globalCountSkus);
+                itemData.setNameItems(globalCountSkus);
             }
             // console.log(globalCountSkus)
         };
@@ -604,6 +653,7 @@ input_rakuten.addEventListener("change", (evt) => {
                     globalCountSkus[value[14]]['rakuten'] = 0; // 初期化
                 }
                 globalCountSkus[value[14]]['rakuten'] += Number(value[4]); //在庫数を代入
+                globalCountSkus[value[14]]['name'] = value[1]; //商品名を格納
             })
             if (is_CsvErr_rakuten) {
                 window.alert('rakutenのCSVが間違っているようです。カラムが違います。')
@@ -621,6 +671,10 @@ input_rakuten.addEventListener("change", (evt) => {
                         })
                     }
                 })
+            } else {
+                // CSVが間違ってない場合　→　インスタンスに保存
+                itemData.setLocationItems('rakuten', globalCountSkus);
+                itemData.setNameItems(globalCountSkus);
             }
             // console.log(globalCountSkus)
         };
@@ -699,6 +753,7 @@ input_yamato.addEventListener("change", (evt) => {
                     globalCountSkus[value[0]]['yamato'] = 0; // 初期化
                 }
                 globalCountSkus[value[0]]['yamato'] += Number(value[14]); //在庫数を代入
+                globalCountSkus[value[0]]['name'] = value[1]; //商品名を格納
             })
             if (is_CsvErr_yamato) {
                 window.alert('yamatoのCSVが間違っているようです。カラムが違います。')
@@ -716,6 +771,11 @@ input_yamato.addEventListener("change", (evt) => {
                         })
                     }
                 })
+            } else {
+                // CSVが間違ってない場合　→　インスタンスに保存
+                itemData.setLocationItems('yamato', globalCountSkus);
+                itemData.setNameItems(globalCountSkus);
+
             }
 
             // console.log(globalCountSkus)
@@ -753,24 +813,7 @@ input_yamato.addEventListener("change", (evt) => {
  */
 const button_push_zaiko = document.getElementById("button_push_zaiko");
 button_push_zaiko.addEventListener('click', () => {
-    console.log(globalCountSkus)
-    fetch(`/json/zaikolode`, { // 送信先URL
-        method: 'POST', // 通信メソッド
-        headers: {
-            'Content-Type': 'application/json' // JSON形式のデータのヘッダー
-        },
-        body: JSON.stringify(globalCountSkus) // JSON形式のデータ
-    })
-        .then(res => res.json())
-        .then(data => {
-            if (data['data'] == 'success') {
-                console.log('jsonを送信しました', data);
-                window.alert('在庫情報をサーバーに保存しました');
-            } else {
-                window.alert('データがありません。先にCSVを読み込んでください。')
-            }
-        })
-
+    itemData.serverSaveItem(); //サーバに保存
 })
 
 

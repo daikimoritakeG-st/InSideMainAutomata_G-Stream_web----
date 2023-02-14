@@ -4,6 +4,178 @@ var globalUplodeDate = '';
 //----------------------------------------------------------
 
 
+//-------------------------------------クラス------------------------------------------------
+
+class GridZaiko {
+  /**
+   * 
+   * @param {{}} globalItemMaster 
+   * @param {{}} zaikoNames name: 表示名
+   */
+  constructor(targetEle, globalItemMaster, zaikoNames) {
+    this.targetEle = targetEle;
+    this.globalItemMaster = globalItemMaster;
+    this.zaikoNames = zaikoNames; //配列で格納
+    this.zaikoNameIndexs = [];
+    console.log('動いた')
+  }
+
+  /**
+   * ロケーションの数だけ画面を調節
+   */
+  initGrid() { //promiseを外す
+
+    const locationkeys = Object.keys(this.zaikoNames); //locationの配列
+    // tbody要素にtr要素（行）を最後に追加
+    var trElem = this.targetEle.tBodies[0].insertRow(-1);
+    trElem.classList.add("sticky_item_header");
+    const cellNameElem = trElem.insertCell(-1);
+    cellNameElem.classList.add("item_grid_2")
+    cellNameElem.innerHTML = '<div>商品名</div> '
+    trElem.insertCell(-1).innerHTML = '<div id="zaikoSku_CreateInitGrid">SKU</div> '
+    // .appendChild(document.createTextNode('SKU'))
+    for (let i = 0; i < locationkeys.length; i++) { //ロケーションの数だけ繰り返す
+      // 列を作成　// td要素を追加
+      this.zaikoNameIndexs.push(locationkeys[i]); //この変数で画面の列を把握する
+      const cellElem = trElem.insertCell(-1);
+      cellElem.appendChild(document.createTextNode(this.zaikoNames[locationkeys[i]])); //ロケーションの名前を追加
+      if (i % 2 == 0) {
+        cellElem.classList.add("item_grid_2"); //偶数の時だけクラスを追加
+      }
+    }
+    const cellElem = trElem.insertCell(-1);
+    cellElem.innerHTML = '<div id="zaikoSum_CreateInitGrid">合計</div>';
+    cellElem.classList.add("item_grid_3")
+    // .appendChild(document.createTextNode('合計'))
+  }
+
+
+  /**
+   * 入力値で先頭一致検索
+   * @param {string} inputText 検索文字列
+   */
+  itemSkuSearch(inputText) {
+    /**
+     * まず、前回の検索内容を消去するために、一つ目の行以外を消去
+     */
+    while (this.targetEle.tBodies[0].rows.length > 1) { //tableの行数が1になるまで消去
+      this.targetEle.tBodies[0].deleteRow(-1); //最後の行を消去
+    }
+
+    let zaikoSearchSum = 0;
+    Object.keys(this.globalItemMaster).forEach(keys_sku => {
+      if (keys_sku.indexOf(inputText) === 0) { //先頭一致で検索
+        var trElem = this.targetEle.tBodies[0].insertRow(-1);
+        trElem.classList.add("item_grid_hover"); //カーソルで色が変わる
+        const cellNameElem = trElem.insertCell(-1);
+        cellNameElem.classList.add("item_grid_2");
+        let itemName = this.globalItemMaster[keys_sku]['name']; //商品名
+        if (itemName == undefined) {
+          itemName = ''; //空白
+        }
+        cellNameElem.appendChild(document.createTextNode(itemName)); //商品名を追加
+        trElem.insertCell(-1).appendChild(document.createTextNode(keys_sku));
+
+        let sum = 0; //合計を格納
+
+        this.zaikoNameIndexs.forEach((zaikoName, ind) => { //ロケーションの数だけ繰り返す
+          // 列を作成　// td要素を追加
+          const cellElem = trElem.insertCell(-1);
+
+          if (ind % 2 == 0) {
+            cellElem.classList.add("item_grid_2"); //偶数の時だけクラスを追加
+          }
+          if (this.globalItemMaster[keys_sku][zaikoName] != undefined) { //データがあるかを確認
+            // 在庫データがあるとき
+            cellElem.appendChild(document.createTextNode(this.globalItemMaster[keys_sku][zaikoName])); //在庫数を格納
+            sum += Number(this.globalItemMaster[keys_sku][zaikoName]); //合計
+          } else { //在庫データがないとき
+            cellElem.appendChild(document.createTextNode('0'));
+          }
+        })
+
+        const cellElem = trElem.insertCell(-1);
+        cellElem.appendChild(document.createTextNode(sum)); // 合計を入力
+        cellElem.classList.add("item_grid_3")
+
+        zaikoSearchSum += sum; //全体の合計
+
+      }
+    })
+    const zaikoSku_CreateInitGridEle = document.getElementById('zaikoSku_CreateInitGrid'); //SKU
+    const zaikoSum_CreateInitGrid = document.getElementById('zaikoSum_CreateInitGrid'); //合計
+    zaikoSum_CreateInitGrid.textContent = `合計(${zaikoSearchSum})`;
+    zaikoSku_CreateInitGridEle.textContent = `SKU  ( × ${this.targetEle.tBodies[0].rows.length - 1})`; //SKUの個数を表示
+  }
+
+  /**
+   * 入力値で全文検索
+   * 正規表現でキーワードを含むかどうか
+   * @param {string} inputText 検索文字列
+   */
+  itemNameSearch(inputText) {
+    /**
+     * まず、前回の検索内容を消去するために、一つ目の行以外を消去
+     */
+    while (this.targetEle.tBodies[0].rows.length > 1) { //tableの行数が1になるまで消去
+      this.targetEle.tBodies[0].deleteRow(-1); //最後の行を消去
+    }
+
+    /**
+     * 正規表現
+     */
+    const reg = new RegExp(inputText); //正規表現のリテラル作成
+
+    let zaikoSearchSum = 0;
+    Object.keys(this.globalItemMaster).forEach(keys_sku => {
+      if (reg.test(this.globalItemMaster[keys_sku]['name'])) { //検索キーワードで全文検索
+        var trElem = this.targetEle.tBodies[0].insertRow(-1);
+        trElem.classList.add("item_grid_hover"); //カーソルで色が変わる
+        const cellNameElem = trElem.insertCell(-1);
+        cellNameElem.classList.add("item_grid_2");
+        let itemName = this.globalItemMaster[keys_sku]['name']; //商品名
+        if (itemName == undefined) {
+          itemName = ''; //空白
+        }
+        cellNameElem.appendChild(document.createTextNode(itemName)); //商品名を追加
+        trElem.insertCell(-1).appendChild(document.createTextNode(keys_sku));
+
+        let sum = 0; //合計を格納
+
+        this.zaikoNameIndexs.forEach((zaikoName, ind) => { //ロケーションの数だけ繰り返す
+          // 列を作成　// td要素を追加
+          const cellElem = trElem.insertCell(-1);
+
+          if (ind % 2 == 0) {
+            cellElem.classList.add("item_grid_2"); //偶数の時だけクラスを追加
+          }
+          if (this.globalItemMaster[keys_sku][zaikoName] != undefined) { //データがあるかを確認
+            // 在庫データがあるとき
+            cellElem.appendChild(document.createTextNode(this.globalItemMaster[keys_sku][zaikoName])); //在庫数を格納
+            sum += Number(this.globalItemMaster[keys_sku][zaikoName]); //合計
+          } else { //在庫データがないとき
+            cellElem.appendChild(document.createTextNode('0'));
+          }
+        })
+
+        const cellElem = trElem.insertCell(-1);
+        cellElem.appendChild(document.createTextNode(sum)); // 合計を入力
+        cellElem.classList.add("item_grid_3")
+
+        zaikoSearchSum += sum; //全体の合計
+
+      }
+    })
+    const zaikoSku_CreateInitGridEle = document.getElementById('zaikoSku_CreateInitGrid'); //SKU
+    const zaikoSum_CreateInitGrid = document.getElementById('zaikoSum_CreateInitGrid'); //合計
+    zaikoSum_CreateInitGrid.textContent = `合計(${zaikoSearchSum})`;
+    zaikoSku_CreateInitGridEle.textContent = `SKU  ( × ${this.targetEle.tBodies[0].rows.length - 1})`; //SKUの個数を表示
+  }
+}
+
+//-------------------------------------------------------------------------------------------
+
+
 
 
 const onclick_test = () => {
@@ -136,99 +308,6 @@ zaikoSearchMenuEle.addEventListener('click', () => {
       const getDataDay = new Date(globalUplodeDate); //データ取得日の日付Object
       export_csv_allEle.download = `all_Location_zaiko_${getDataDay.getFullYear()}-${getDataDay.getMonth() + 1}-${getDataDay.getDate()}.csv`;
 
-      class GridZaiko {
-
-        /**
-         * 
-         * @param {{}} globalItemMaster 
-         * @param {{}} zaikoNames name: 表示名
-         */
-        constructor(targetEle, globalItemMaster, zaikoNames) {
-          this.targetEle = targetEle;
-          this.globalItemMaster = globalItemMaster;
-          this.zaikoNames = zaikoNames; //配列で格納
-          this.zaikoNameIndexs = [];
-          console.log('動いた')
-        }
-
-        /**
-         * ロケーションの数だけ画面を調節
-         */
-        initGrid() { //promiseを外す
-
-          const locationkeys = Object.keys(this.zaikoNames); //locationの配列
-          // tbody要素にtr要素（行）を最後に追加
-          var trElem = this.targetEle.tBodies[0].insertRow(-1);
-          trElem.classList.add("sticky_item_header");
-          trElem.insertCell(-1).innerHTML = '<div id="zaikoSku_CreateInitGrid">SKU</div> '
-          // .appendChild(document.createTextNode('SKU'))
-          for (let i = 0; i < locationkeys.length; i++) { //ロケーションの数だけ繰り返す
-            // 列を作成　// td要素を追加
-            this.zaikoNameIndexs.push(locationkeys[i]); //この変数で画面の列を把握する
-            const cellElem = trElem.insertCell(-1);
-            cellElem.appendChild(document.createTextNode(this.zaikoNames[locationkeys[i]])); //ロケーションの名前を追加
-            if (i % 2 == 0) {
-              cellElem.classList.add("item_grid_2"); //偶数の時だけクラスを追加
-            }
-          }
-          const cellElem = trElem.insertCell(-1);
-          cellElem.innerHTML = '<div id="zaikoSum_CreateInitGrid">合計</div>';
-          cellElem.classList.add("item_grid_3")
-          // .appendChild(document.createTextNode('合計'))
-        }
-
-
-        /**
-         * 入力値で先頭一致検索
-         * @param {string} inputText 検索文字列
-         */
-        itemSearch(inputText) {
-          /**
-           * まず、前回の検索内容を消去するために、一つ目の行以外を消去
-           */
-          while (this.targetEle.tBodies[0].rows.length > 1) { //tableの行数が1になるまで消去
-            this.targetEle.tBodies[0].deleteRow(-1); //最後の行を消去
-          }
-
-          let zaikoSearchSum = 0;
-          Object.keys(this.globalItemMaster).forEach(keys_sku => {
-            if (keys_sku.indexOf(inputText) === 0) { //先頭一致で検索
-              var trElem = this.targetEle.tBodies[0].insertRow(-1);
-              trElem.classList.add("item_grid_hover"); //カーソルで色が変わる
-              trElem.insertCell(-1).appendChild(document.createTextNode(keys_sku));
-
-              let sum = 0; //合計を格納
-
-              this.zaikoNameIndexs.forEach((zaikoName, ind) => { //ロケーションの数だけ繰り返す
-                // 列を作成　// td要素を追加
-                const cellElem = trElem.insertCell(-1);
-                if (ind % 2 == 0) {
-                  cellElem.classList.add("item_grid_2"); //偶数の時だけクラスを追加
-                }
-                if (this.globalItemMaster[keys_sku][zaikoName] != undefined) { //データがあるかを確認
-                  // 在庫データがあるとき
-                  cellElem.appendChild(document.createTextNode(this.globalItemMaster[keys_sku][zaikoName])); //在庫数を格納
-                  sum += Number(this.globalItemMaster[keys_sku][zaikoName]); //合計
-                } else { //在庫データがないとき
-                  cellElem.appendChild(document.createTextNode('0'));
-                }
-              })
-
-              const cellElem = trElem.insertCell(-1);
-              cellElem.appendChild(document.createTextNode(sum)); // 合計を入力
-              cellElem.classList.add("item_grid_3")
-
-              zaikoSearchSum += sum; //全体の合計
-
-            }
-          })
-          const zaikoSku_CreateInitGridEle = document.getElementById('zaikoSku_CreateInitGrid'); //SKU
-          const zaikoSum_CreateInitGrid = document.getElementById('zaikoSum_CreateInitGrid'); //合計
-          zaikoSum_CreateInitGrid.textContent = `合計(${zaikoSearchSum})`;
-          zaikoSku_CreateInitGridEle.textContent = `SKU  ( × ${this.targetEle.tBodies[0].rows.length - 1})`; //SKUの個数を表示
-        }
-      }
-
 
       var grid = new GridZaiko(zaikoSearchTableEle, globalItemMaster, {
         amazon: 'Amazon',
@@ -242,9 +321,16 @@ zaikoSearchMenuEle.addEventListener('click', () => {
 
       const button_item_SearchEle = document.getElementById('button_item_Search'); // 検索ボタンのエレメント
       const input_item_searchEle = document.getElementById('input_item_search'); // 入力
+      const zaikoSearchOptionEle = document.getElementById('zaikoSearchOption'); // 検索オプション
       button_item_SearchEle.addEventListener('click', () => {
         const input = input_item_searchEle.value;
-        grid.itemSearch(input); //検索
+        const searchOption = zaikoSearchOptionEle.value; //検索方法を取得
+        if (searchOption == 'SKU') {
+          grid.itemSkuSearch(input); //検索
+        } else if (searchOption == '商品名') {
+          // console.log('開発中： 商品名であいまい検索')
+          grid.itemNameSearch(input); //商品名であいまい検索
+        }
       })
       input_item_searchEle.addEventListener('keydown', (e) => {
         if (e.key == 'Enter') {

@@ -47,14 +47,16 @@
                                 <td>
                                     <table>
                                         <tr>
-                                            <td>検索キーワード</td>
+                                            <!-- <td>検索キーワード</td> -->
                                             <td>
                                                 <label class="nice-label" for="Username">
-                                                    ※先頭一致で検索します
-                                                    <!-- <select name="zaikoSearchOption">
-                                                        <option>商品管理コード</option>
+                                                    検索方法：
+                                                    <select id="zaikoSearchOption">
                                                         <option>SKU</option>
-                                                    </select> -->
+                                                        <!-- <option>商品管理コード</option> -->
+                                                        <option>商品名</option>
+                                                    </select>
+                                                    ← new 商品名で検索できるようになりました
                                                 </label>
                                                 <input type="text" class="nice-textbox" id="input_item_search">
                                                 <button id="button_item_Search">検索</button>
